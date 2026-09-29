@@ -1,23 +1,44 @@
-var $buttons = document.querySelectorAll(".buttons");
-var $scren = document.getElementById("inp");
-var $btnd = document.getElementById("btnd");
-var $btne = document.getElementById("btne");
-var $btnc = document.getElementById("btnc");
-var num = Number($scren.value);
-$buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    
-    $scren.value += button.innerHTML;
+let inNUM = document.querySelector(".inputnum");
+let  invalidNum= document.querySelector(".invalid");
+let  divIMG= document.querySelector(".Divamge");
+let  btn= document.querySelector(".btn");
 
-  });
-});
-$btnd.addEventListener("click", () => {
-  $scren.value = $scren.value.slice(0, -1);
-});
+btn.addEventListener("click",async()=>{
+let rej = await fetch('https://api.imgflip.com/get_memes');
+ let data = await rej.json();
+ let img = data.data.memes
+// console.log(img);
+let Input = inNUM.value.trim()
+let Num =Number(Input)
+// console.log(Num);
 
-$btne.addEventListener("click",()=>{
-     $scren.value = 0 ;
+if (!Input || !Num) {
+    invalidNum.style.display="block"
+     divIMG.style.display="none"
+    return;
+
+}  if(img[Num]){
+    divIMG.style.display="block"
+    invalidNum.style.display="none"
+    divIMG.innerHTML =  `
+  <img src="${img[Num].url}" class="rounded card-img " alt="...">
+`
+}else{
+
+invalidNum.style.display="block"
+     divIMG.style.display="none"
+
+
+
+
+}
+
+
+
+
+
+
+
 })
-$btnc.addEventListener("click",()=>{
-     $scren.value = "" ;
-})
+
+
